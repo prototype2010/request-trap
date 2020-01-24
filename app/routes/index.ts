@@ -1,8 +1,23 @@
 import { Router } from 'express';
+import { DBConnection } from '../database/DBConnection';
+import * as mongoose from 'mongoose';
 
 const router = Router();
 
-router.get('/', function(req, res) {
+router.get('/', async function(req, res) {
+  const kittySchema = new mongoose.Schema({
+    name: String,
+  });
+
+
+  const connection = DBConnection.getInstance();
+
+  const Kitten = mongoose.model('Kitten', kittySchema);
+
+  var fluffy = new Kitten({ name: 'fluffy' });
+
+  await fluffy.save()
+
   res.send('Birds home page');
 });
 
