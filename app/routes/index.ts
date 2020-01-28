@@ -6,15 +6,15 @@ import { RequestsController } from '../controllers/RequestsController';
 const router = Router();
 
 router.get('/', async function(req, res) {
-  return new HomePageController(req, res);
+  return new HomePageController(req, res).proceed();
 });
 
-router.get('/:trap_id', async function(req, res) {
-  return new TrapController(req, res);
+router.all('/:trap_id', async function(req, res) {
+  await new TrapController(req, res).proceed();
 });
 
-router.all('/:trap_id/requests', function(req, res) {
-  return new RequestsController(req, res);
+router.get('/:trap_id/requests', function(req, res) {
+  return new RequestsController(req, res).proceed();
 });
 
 export { router };

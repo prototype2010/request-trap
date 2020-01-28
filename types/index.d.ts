@@ -17,4 +17,10 @@ export interface SignedWithDate {
   date: number;
 }
 
+export interface Trapped {
+  trapId: string;
+}
+
 export type RequestInfo = RequestParams & SignedWithDate;
+
+export type TrappedRequestInfo = RequestInfo & Trapped;

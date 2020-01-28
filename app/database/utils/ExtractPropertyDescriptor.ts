@@ -1,10 +1,11 @@
 import { IndexedObject } from '../../../types';
+import _ from 'lodash';
 
 export class ExtractPropertyDescriptor<T> {
   constructor(private _propName: string, private _extractProp: string) {}
 
   public extract(extractTarget: IndexedObject<any>): IndexedObject<T> {
-    return { [this.propName]: extractTarget[this.extractProp] };
+    return { [this.propName]: _.get(extractTarget, this._extractProp) };
   }
 
   get propName(): string {

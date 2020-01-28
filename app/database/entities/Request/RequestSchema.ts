@@ -1,18 +1,14 @@
 import * as mongoose from 'mongoose';
 
-const httpRequestSchema = {
+export const MongooseHTTPRequestSchema = new mongoose.Schema({
   headers: Object,
   cookies: Object,
   ip: String,
   method: String,
-  schema: String,
+  httpSchema: String,
   query: Object,
   params: Object,
   url: Object,
-};
-
-export type HttpRequestSchema = typeof httpRequestSchema;
-
-const HttpRequestSchema = new mongoose.Schema(httpRequestSchema);
-
-export const HttpRequestInfo = mongoose.model('HttpRequestInfo', HttpRequestSchema);
+  trapId: String,
+  date: Number,
+});
