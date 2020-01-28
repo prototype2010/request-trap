@@ -2,7 +2,7 @@ export interface IndexedObject<T> {
   [index: string]: T;
 }
 
-interface RequestParams {
+export interface RequestParams {
   headers: IndexedObject<string | object>;
   cookies: IndexedObject<string>;
   ip: string;

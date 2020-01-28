@@ -1,43 +1,20 @@
 import { Router } from 'express';
-import * as mongoose from 'mongoose';
+import { HomePageController } from '../controllers/HomePageController';
+import { TrapController } from '../controllers/TrapController';
+import { RequestsController } from '../controllers/RequestsController';
 
 const router = Router();
 
-const kittySchema = new mongoose.Schema({
-  name: String,
-});
-
-const Kitten = mongoose.model('Kitten', kittySchema);
-
 router.get('/', async function(req, res) {
-  const fluffy = new Kitten({ name: 'fluffy' });
-
-  await fluffy.save();
-
-  res.send('Birds home page');
+  return new HomePageController(req, res);
 });
 
 router.get('/:trap_id', async function(req, res) {
-  const { headers, cookies, ip, method, secure, query, params, url} = req;
-
-  // const kit = await Kitten.findOne({ name: 'fluffy' });
-  // res.send(kit);
-
-  res.send({
-    HEADERS: headers,
-    COOKIES: cookies,
-    IP: ip,
-    // date: Date.now(),
-    METHOD : method,
-    SECURE : secure,
-    QUERY : query,
-    PARAMS : params,
-    url
-  });
+  return new TrapController(req, res);
 });
 
 router.all('/:trap_id/requests', function(req, res) {
-  res.send('view all requests here ');
+  return new RequestsController(req, res);
 });
 
 export { router };

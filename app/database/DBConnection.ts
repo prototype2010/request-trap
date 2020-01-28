@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-(async function() {})();
-
 export class DBConnection {
   private static readonly instance = mongoose.connection;
   private constructor() {}

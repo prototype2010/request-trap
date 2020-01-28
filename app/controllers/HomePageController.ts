@@ -1,5 +1,8 @@
+import express from 'express';
 import { Controller } from './utils/Controller';
 
-class HomePageController extends Controller {
-
+export class HomePageController extends Controller {
+  constructor(req: express.Request, res: express.Response) {
+    super(req, res);
+  }
 }

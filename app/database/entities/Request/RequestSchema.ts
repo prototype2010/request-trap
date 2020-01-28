@@ -13,4 +13,6 @@ const httpRequestSchema = {
 
 export type HttpRequestSchema = typeof httpRequestSchema;
 
-export const HttpRequestInfo = new mongoose.Schema(httpRequestSchema);
+const HttpRequestSchema = new mongoose.Schema(httpRequestSchema);
+
+export const HttpRequestInfo = mongoose.model('HttpRequestInfo', HttpRequestSchema);

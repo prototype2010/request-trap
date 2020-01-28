@@ -1,3 +1,8 @@
 import { Controller } from './utils/Controller';
+import express from 'express';
 
-class TrapController extends Controller {}
+export class TrapController extends Controller {
+  constructor(req: express.Request, res: express.Response) {
+    super(req, res);
+  }
+}
