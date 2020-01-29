@@ -1,25 +1,20 @@
 import { Controller } from './utils/Controller';
 import express from 'express';
-import { RequestBulkExtractor } from '../database/entities/Request/RequestExtractorConfig';
 import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoModel';
+import { RequestFactory } from '../database/entities/Request/RequestFactory';
 
 export class TrapController extends Controller {
   constructor(req: express.Request, res: express.Response) {
     super(req, res);
   }
 
-  async proceed(): Promise<any> {
-    await super.initTrap();
-    const requestInfo = RequestBulkExtractor.extract(super.req);
+  async proceed(): Promise<void> {
+    const trap = await super.initTrap();
 
-    const newRequest = new HttpRequestInfo({
-      ...requestInfo,
-      date: Date.now(),
-      trapId: super.trapId,
-    });
-
+    const requestInfo = RequestFactory.create(this.req, trap._id);
+    const newRequest = new HttpRequestInfo(requestInfo);
     const resp = await newRequest.save();
 
-    this.res.end(resp);
+    this.res.json(resp);
   }
 }

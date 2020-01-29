@@ -8,9 +8,16 @@ export abstract class Controller {
     protected trapId = req.params.trap_id,
   ) {}
 
-  async initTrap(): Promise<void> {
-    await Trap.findByIdAndUpdate(this.trapId, { id: this.trapId }, { upsert: true });
+  async initTrap(): Promise<any> {
+    return Trap.findOneAndUpdate(
+      { id: this.trapId },
+      {
+        $setOnInsert: { id: this.trapId },
+      },
+      {
+        new: true,
+        upsert: true,
+      },
+    );
   }
-
-  abstract async proceed(): Promise<any>;
 }

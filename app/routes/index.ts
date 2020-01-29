@@ -14,7 +14,7 @@ router.all('/:trap_id', async function(req, res) {
 });
 
 router.get('/:trap_id/requests', function(req, res) {
-  return new RequestsController(req, res).proceed();
+  return new RequestsController(req, res).get();
 });
 
 export { router };
