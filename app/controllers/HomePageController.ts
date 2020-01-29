@@ -6,7 +6,7 @@ export class HomePageController extends Controller {
     super(req, res);
   }
 
-  async proceed(): Promise<any> {
-    return this.res.end('/ homepage');
+  proceed() {
+    return this.res.render('index');
   }
 }

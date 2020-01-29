@@ -5,6 +5,8 @@ import { DBConnection } from './database/DBConnection';
 export const app = express();
 
 app.use(router);
+app.set('views', './app/views')
+app.set('view engine', 'pug');
 
 app.listen(3000, async () => {
   await DBConnection.connect();

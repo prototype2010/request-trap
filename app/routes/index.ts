@@ -5,7 +5,7 @@ import { RequestsController } from '../controllers/RequestsController';
 
 const router = Router();
 
-router.get('/', async function(req, res) {
+router.get('/', function(req, res) {
   return new HomePageController(req, res).proceed();
 });
 
