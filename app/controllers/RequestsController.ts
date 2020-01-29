@@ -10,8 +10,10 @@ export class RequestsController extends Controller {
   async get() {
     const trap = await super.initTrap();
 
-    const trappedRequests = await HttpRequestInfo.find({ trapId: trap._id });
+    const { _id } = trap;
 
-    this.res.json(trappedRequests);
+    const trappedRequests = await HttpRequestInfo.find({ trapId: _id });
+
+    this.res.render('requests', { requests: trappedRequests, trapId: _id });
   }
 }

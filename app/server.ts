@@ -1,14 +1,24 @@
 import express from 'express';
+import * as http from 'http';
+import * as WebSocket from 'ws';
+
 import { router } from './routes';
 import { DBConnection } from './database/DBConnection';
 
 export const app = express();
 
 app.use(router);
-app.set('views', './app/views')
+app.set('views', './app/views');
 app.set('view engine', 'pug');
 
-app.listen(3000, async () => {
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws: WebSocket) => {
+  ws.send('Hi there, I am a WebSocket server');
+});
+
+server.listen(3000, async () => {
   await DBConnection.connect();
   console.log(`listening to port 3000`);
 });

@@ -1,0 +1,18 @@
+include ./components/header
+include ./components/footer
+
+    ul
+        each val in requests
+            li= val
+
+header
+body
+    script.
+        var [,trapId] = window.location.pathname.split('/')
+        var socket = new WebSocket('ws://localhost:3000');
+
+        // Listen for messages
+        socket.addEventListener('message', function (event) {
+            console.log('Message from server ', event.data);
+        });
+footer
