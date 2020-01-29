@@ -7,10 +7,8 @@ export class RequestsController extends Controller {
     super(req, res);
   }
 
-  async get() {
-    const trap = await super.initTrap();
-
-    const { _id } = trap;
+  async get(): Promise<void> {
+    const { _id } = await super.initTrap();
 
     const trappedRequests = await HttpRequestInfo.find({ trapId: _id });
 
