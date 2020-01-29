@@ -15,6 +15,8 @@ export class TrapController extends Controller {
     const newRequest = new HttpRequestInfo(requestInfo);
     const resp = await newRequest.save();
 
+    this.emit('incomingRequest', JSON.stringify(resp));
+
     this.res.json(resp);
   }
 }

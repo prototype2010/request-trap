@@ -4,6 +4,7 @@ import * as WebSocket from 'ws';
 
 import { router } from './routes';
 import { DBConnection } from './database/DBConnection';
+import { RequestNotifier } from './websockets/RequestNotifier';
 
 export const app = express();
 
@@ -14,7 +15,17 @@ app.set('view engine', 'pug');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+const notifier = new RequestNotifier();
+
+notifier.initListener();
+
+setInterval(() => {
+  notifier.emit('incomingRequest', JSON.stringify({ test: 'test' }));
+}, 1000);
+
 wss.on('connection', (ws: WebSocket) => {
+  notifier.wsConnection = ws;
+
   ws.send('Hi there, I am a WebSocket server');
 });
 
