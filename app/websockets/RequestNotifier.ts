@@ -1,24 +1,22 @@
-import { EventEmitter } from 'events';
 import * as WebSocket from 'ws';
+import { Notification } from './Notification';
 
-export class RequestNotifier extends EventEmitter {
-  constructor(private _wsConnection?: WebSocket) {
-    super();
-  }
+export interface RequestNotifierI {
+  notify: (notification: Notification) => void;
+}
 
-  notify(e: Event) {
-    console.log('## e ', e);
+export class RequestNotifier {
+  private static _wsConnection?: WebSocket;
 
-    if (this._wsConnection) {
-      this._wsConnection.send(e);
+  private constructor() {}
+
+  public static notify(notification: Notification): void {
+    if (RequestNotifier._wsConnection) {
+      RequestNotifier._wsConnection.send(notification.getMessage());
     }
   }
 
-  initListener() {
-    this.addListener('incomingRequest', e => this.notify(e));
-  }
-
-  set wsConnection(value: WebSocket) {
+  public static set wsConnection(value: WebSocket) {
     this._wsConnection = value;
   }
 }

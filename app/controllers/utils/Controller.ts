@@ -1,17 +1,20 @@
 import express from 'express';
 import { Trap } from '../../database/entities/Trap/TrapModel';
-import { EventEmitter } from 'events';
+import { RequestNotifierI } from '../../websockets/RequestNotifier';
+import { Notification } from '../../websockets/Notification';
 
-export abstract class Controller extends EventEmitter {
+export abstract class Controller {
+  protected trapId = '';
+
   protected constructor(
     protected req: express.Request,
     protected res: express.Response,
-    protected trapId = req.params.trap_id,
+    private requestNotifier: RequestNotifierI,
   ) {
-    super();
+    this.trapId = req.params.trap_id;
   }
 
-  async initTrap(): Promise<any> {
+  protected async initTrap(): Promise<any> {
     return Trap.findOneAndUpdate(
       { id: this.trapId },
       {
@@ -22,5 +25,9 @@ export abstract class Controller extends EventEmitter {
         upsert: true,
       },
     );
+  }
+
+  protected notify(notification: Notification): void {
+    this.requestNotifier.notify(notification);
   }
 }

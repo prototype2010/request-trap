@@ -1,6 +1,7 @@
 export class Notification {
-    constructor() {}
+  constructor(private message: any) {}
 
-
-
+  public getMessage(): string {
+    return JSON.stringify(this.message);
+  }
 }
