@@ -16,11 +16,12 @@ export class TrapController extends Controller {
 
     const requestInfo = RequestFactory.create(this.req, trap._id);
 
-    const newRequest = new HttpRequestInfo(requestInfo);
-    const resp = await newRequest.save();
+    const mongooseModel = new HttpRequestInfo(requestInfo);
+    const savedRequest = await mongooseModel.save();
 
-    super.notify(new Notification(NOTIFICATION_TYPES.INCOMING_REQUEST, resp));
+    super.notify(new Notification(NOTIFICATION_TYPES.INCOMING_REQUEST, savedRequest));
 
-    this.res.json(resp);
+    this.res.status(200);
+    this.res.end();
   }
 }
