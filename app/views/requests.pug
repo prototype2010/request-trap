@@ -8,22 +8,22 @@ include ./components/footer
 header
 body
     script.
-        const [,trapId] = window.location.pathname.split('/')
+        const [,trapName] = window.location.pathname.split('/')
         const {hostname,port} = window.location;
         const socket = new WebSocket(`ws://${hostname}:${port}`);
         const list = document.getElementById('list');
 
         // Listen for messages
         socket.addEventListener('message', function (event) {
+            const {type, message } = JSON.parse(event.data);
 
-            // if(event.trapId === trapId) {
-            //
+            if(type === 'incomingRequest' && message.trapName === trapName) {
+
                 const newListItem = document.createElement('li');
                 newListItem.textContent = event.data;
 
                 list.append(newListItem);
-
-            // }
+            }
 
             console.log('Message from server ', event.data);
         });

@@ -8,6 +8,7 @@ export interface RequestFactoryInfo {
   httpSchema: httpType;
   date: number;
   trapId: string;
+  trapName: string;
 }
 
 export class RequestFactory {
@@ -19,6 +20,7 @@ export class RequestFactory {
       ...requestInfo,
       httpSchema,
       trapId,
+      trapName: req.params.trap_id,
       date: Date.now(),
     };
   }

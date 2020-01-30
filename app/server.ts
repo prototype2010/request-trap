@@ -17,8 +17,6 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws: WebSocket) => {
   RequestNotifier.wsConnection = ws;
-
-  ws.send('Connection init');
 });
 
 server.listen(3000, async () => {

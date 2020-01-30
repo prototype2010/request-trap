@@ -10,6 +10,8 @@ export interface HTTPRequestInfo {
   query: object;
   params: object;
   url: object;
+  trapId: string;
+  trapName: string;
 }
 
 export const HttpRequestInfo = mongoose.model('HttpRequestInfo', MongooseHTTPRequestSchema);

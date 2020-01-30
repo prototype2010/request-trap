@@ -1,5 +1,6 @@
-import { Controller } from './utils/Controller';
 import express from 'express';
+
+import { Controller } from './utils/Controller';
 import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoModel';
 import { RequestNotifierI } from '../websockets/RequestNotifier';
 
