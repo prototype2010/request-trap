@@ -10,12 +10,12 @@ router.get('/', function(req, res) {
   return new HomePageController(req, res, RequestNotifier).get();
 });
 
-router.all('/:trap_id', async function(req, res) {
-  await new TrapController(req, res, RequestNotifier).proceed();
-});
-
 router.get('/:trap_id/requests', function(req, res) {
   return new RequestsController(req, res, RequestNotifier).get();
+});
+
+router.all(['/:trap_id/*', '/:trap_id'], async function(req, res) {
+  await new TrapController(req, res, RequestNotifier).proceed();
 });
 
 export { router };

@@ -40,9 +40,9 @@ body
 
             if(type === 'incomingRequest' && message.trapName === trapName) {
 
-                const newRow = createTableRow(message);
+                const newRowHtml = createTableRow(message);
 
-                insertHTMLToNode(table, newRow);
+                insertHTMLToNode(table, newRowHtml);
             }
         });
 
