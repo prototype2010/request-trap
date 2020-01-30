@@ -1,28 +1,70 @@
-include ./components/header
-include ./components/footer
+include ./components/headTemplate
 
-    ol(id='list')
-        each val in requests
-            li= val
-
-header
+headTemplate
 body
+    header(class="jumbotron")
+        h1(class="display-4") Trapped requests table
+    div(class='container')
+        div(class='row')
+            div(class='col')
+                table(class="table")
+                    thead
+                        tr
+                            th(scope="col") #
+                            th(scope="col") Method
+                            th(scope="col") Query params
+                            th(scope="col") Url
+                            th(scope="col") Schema
+                            th(scope="col") Trap ID
+                            th(scope="col") Trap name
+                            th(scope="col") Request date
+                    tbody(id='table')
+                        each request in requests
+                            tr
+                                th
+                                th= request.method
+                                td= JSON.stringify(request.params)
+                                td= request.url
+                                td= request.httpSchema
+                                td= request.trapId
+                                td= request.trapName
+                                td= new Date(request.date).toUTCString()
     script.
         const [,trapName] = window.location.pathname.split('/')
         const {hostname,port} = window.location;
-        const socket = new WebSocket(`ws://${hostname}:${port}`);
-        const list = document.getElementById('list');
+        const socketConnection = new WebSocket(`ws://${hostname}:${port}`);
+        const table = document.getElementById('table');
 
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
+        socketConnection.addEventListener('message', function (event) {
             const {type, message } = JSON.parse(event.data);
 
             if(type === 'incomingRequest' && message.trapName === trapName) {
 
-                const newListItem = document.createElement('li');
-                newListItem.textContent = event.data;
+                const newRow = createTableRow(message);
 
-                list.append(newListItem);
+                insertHTMLToNode(table, newRow);
             }
         });
+
+        function insertHTMLToNode (node, html) {
+            node.innerHTML = `${node.innerHTML}${html}`;
+        }
+
+        function createTableRow(message) {
+
+            const {method,params, url,httpSchema,trapId,trapName,date} = message;
+
+                return `
+                         <tr>
+                              <th></th>
+                              <th>${method}</th>
+                              <td>${JSON.stringify(params)}</th>
+                              <td>${url}</th>
+                              <td>${httpSchema}</th>
+                              <td>${trapId}</th>
+                              <td>${trapName}</th>
+                              <td>${new Date(date).toUTCString()}</th>
+                        </tr>
+                `;
+        }
 footer
