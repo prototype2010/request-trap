@@ -14,6 +14,6 @@ export class RequestsController extends Controller {
 
     const trappedRequests = await HttpRequestInfo.find({ trapId: _id });
 
-    this.res.render('requests', { requests: trappedRequests, trapId: _id });
+    this.res.render('requests', { requests: trappedRequests });
   }
 }
