@@ -1,15 +1,16 @@
 import * as mongoose from 'mongoose';
 import { MongooseHTTPRequestSchema } from './RequestSchema';
+import { IndexedObject } from '../../../../types';
 
 export interface HTTPRequestInfo {
-  headers: object;
-  cookies: object;
+  headers: IndexedObject<any>;
+  cookies: IndexedObject<any>;
   ip: string;
   method: string;
   httpSchema: string;
-  query: object;
-  params: object;
-  url: object;
+  query: IndexedObject<any>;
+  params: IndexedObject<any>;
+  url: string;
   trapId: string;
   trapName: string;
 }

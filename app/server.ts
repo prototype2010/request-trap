@@ -5,8 +5,9 @@ import * as WebSocket from 'ws';
 import { router } from './routes';
 import { DBConnection } from './database/DBConnection';
 import { RequestNotifier } from './websockets/RequestNotifier';
+import { TEST_ENV } from '../config';
 
-export const app = express();
+const app = express();
 
 app.use(router);
 app.set('views', './app/views');
@@ -19,7 +20,12 @@ wss.on('connection', (ws: WebSocket) => {
   RequestNotifier.wsConnection = ws;
 });
 
-server.listen(3000, async () => {
+(async function(): Promise<void> {
   await DBConnection.connect();
-  console.log(`listening to port 3000`);
-});
+})();
+
+if (!TEST_ENV) {
+  server.listen(3000);
+}
+
+export { app };

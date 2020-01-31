@@ -10,10 +10,7 @@ export class DBConnection {
 
       const db = mongoose.connection;
       db.on('error', e => rej(e));
-      db.once('open', () => {
-        console.log(`connected to DB ${DB_NAME}`);
-        res();
-      });
+      db.once('open', res);
     });
   }
 }
