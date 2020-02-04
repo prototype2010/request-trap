@@ -13,11 +13,11 @@ export interface RequestFactoryInfo {
 
 export class RequestFactory {
   static create(req: express.Request, trapId: string): HTTPRequestInfo & RequestFactoryInfo {
-    const requestInfo = RequestBulkExtractor.extract(req);
+    const requestInfoParams = RequestBulkExtractor.extract(req);
     const httpSchema = req.secure ? 'https' : 'http';
 
     return {
-      ...requestInfo,
+      ...requestInfoParams,
       httpSchema,
       trapId,
       trapName: req.params.trap_id,

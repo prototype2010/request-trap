@@ -1,6 +1,7 @@
 import express from 'express';
 import * as http from 'http';
 import * as WebSocket from 'ws';
+import { PORT } from '../config';
 
 import { router } from './routes';
 import { DBConnection } from './database/DBConnection';
@@ -25,7 +26,7 @@ wss.on('connection', (ws: WebSocket) => {
 })();
 
 if (!TEST_ENV) {
-  server.listen(3000);
+  server.listen(PORT);
 }
 
 export { app };

@@ -7,11 +7,11 @@ import { RequestNotifier } from '../websockets/RequestNotifier';
 const router = Router();
 
 router.get('/', function(req, res) {
-  return new HomePageController(req, res, RequestNotifier).get();
+  return new HomePageController(req, res, RequestNotifier).index();
 });
 
 router.get('/:trap_id/requests', function(req, res) {
-  return new RequestsController(req, res, RequestNotifier).get();
+  return new RequestsController(req, res, RequestNotifier).index();
 });
 
 router.all(['/:trap_id/*', '/:trap_id'], async function(req, res) {
