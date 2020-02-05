@@ -5,8 +5,8 @@ import { PORT } from '../config';
 
 import { router } from './routes';
 import { DBConnection } from './database/DBConnection';
-import { RequestNotifier } from './websockets/RequestNotifier';
 import { TEST_ENV } from '../config';
+import { WSConnectionManager } from './websockets/WSConnectionManager';
 
 const app = express();
 
@@ -17,8 +17,16 @@ app.set('view engine', 'pug');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-wss.on('connection', (ws: WebSocket) => {
-  RequestNotifier.wsConnection = ws;
+const wsConnectionManager = WSConnectionManager.getInstance();
+
+wss.on('connection', (ws: WebSocket, req: express.Request) => {
+  const [, trapID] = req.url.split('/');
+
+  wsConnectionManager.add(trapID, ws);
+
+  ws.addEventListener('close', () => {
+    wsConnectionManager.remove(trapID, ws);
+  });
 });
 
 (async function(): Promise<void> {

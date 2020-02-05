@@ -1,15 +1,15 @@
 import express from 'express';
-import { RequestNotifierI } from '../../websockets/RequestNotifier';
 import { Notification } from '../../websockets/Notification';
+import { WSConnectionManager } from '../../websockets/WSConnectionManager';
 
 export abstract class Controller {
   public constructor(
     protected req: express.Request,
     protected res: express.Response,
-    private requestNotifier: RequestNotifierI,
+    private requestNotifier: WSConnectionManager,
   ) {}
 
   protected notify(notification: Notification): void {
-    this.requestNotifier.notify(notification);
+    this.requestNotifier.notifyAllByURL(this.req.params.trap_id, notification);
   }
 }

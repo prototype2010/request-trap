@@ -1,14 +1,8 @@
-import express from 'express';
-
 import { Controller } from './utils/Controller';
 import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoModel';
-import { RequestNotifierI } from '../websockets/RequestNotifier';
 import { Trap } from '../database/entities/Trap/TrapModel';
 
 export class RequestsController extends Controller {
-  constructor(req: express.Request, res: express.Response, notifier: RequestNotifierI) {
-    super(req, res, notifier);
-  }
 
   private async initTrap(): Promise<any> {
     const trapId = this.req.params.trap_id;

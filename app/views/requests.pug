@@ -32,13 +32,15 @@ body
     script.
         const [,trapName] = window.location.pathname.split('/')
         const {hostname,port} = window.location;
-        const socketConnection = new WebSocket(`ws://${hostname}:${port}`);
+        const socketConnection = new WebSocket(`ws://${hostname}:${port}/${trapName}`);
         const table = document.getElementById('table');
 
         socketConnection.addEventListener('message', function (event) {
             const {type, message } = JSON.parse(event.data);
 
-            if(type === 'incomingRequest' && message.trapName === trapName) {
+            console.log(event.data)
+
+            if(type === 'incomingRequest') {
 
                 const newRowHtml = createTableRow(message);
 
