@@ -1,12 +1,12 @@
 import express from 'express';
 import * as http from 'http';
 import * as WebSocket from 'ws';
-import { PORT } from '../config';
+import { PORT } from './config';
 
-import { router } from './routes';
-import { DBConnection } from './database/DBConnection';
-import { TEST_ENV } from '../config';
-import { WSConnectionManager } from './websockets/WSConnectionManager';
+import { router } from './app/routes';
+import { DBConnection } from './app/database/DBConnection';
+import { TEST_ENV } from './config';
+import { WSConnectionManager } from './app/websockets/WSConnectionManager';
 
 const app = express();
 

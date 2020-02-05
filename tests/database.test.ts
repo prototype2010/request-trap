@@ -1,7 +1,7 @@
 import 'jest';
 import request from 'supertest';
 
-import { app } from '../app/server';
+import { app } from '../server';
 import { HttpRequestInfo } from '../app/database/entities/Request/HttpRequestInfoModel';
 import { Trap } from '../app/database/entities/Trap/TrapModel';
 
