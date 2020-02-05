@@ -1,12 +1,6 @@
 import * as WebSocket from 'ws';
 import { Notification } from './Notification';
 
-export interface WSConnectionManagerI {
-  notifyAllByURL: (url: string, notification: Notification) => void;
-  add: (url: string, connection: WebSocket) => void;
-  remove: (url: string, connection: WebSocket) => void;
-}
-
 export class WSConnectionManager {
   private static instance = new WSConnectionManager();
   private connection = new Map<string, Array<WebSocket>>();

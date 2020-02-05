@@ -7,7 +7,6 @@ export interface RequestInfo {
   httpSchema: 'https' | 'http';
   date: number;
   trapId: string;
-  trapName: string;
   cookies: string;
   ip: string;
   method: string;
@@ -58,7 +57,6 @@ export class TrapController extends Controller {
       url,
       httpSchema: secure ? 'https' : 'http',
       trapId,
-      trapName: this.req.params.trap_id,
       date: Date.now(),
     };
   }

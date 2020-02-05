@@ -3,7 +3,6 @@ import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoMod
 import { Trap } from '../database/entities/Trap/TrapModel';
 
 export class RequestsController extends Controller {
-
   private async initTrap(): Promise<any> {
     const trapId = this.req.params.trap_id;
 

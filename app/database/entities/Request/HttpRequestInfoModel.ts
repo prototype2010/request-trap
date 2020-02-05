@@ -10,7 +10,6 @@ const HTTPRequestSchema = new mongoose.Schema({
   params: Object,
   url: Object,
   trapId: String,
-  trapName: String,
   date: Number,
 });
 
