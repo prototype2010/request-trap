@@ -1,18 +1,17 @@
 import * as mongoose from 'mongoose';
-import { MongooseHTTPRequestSchema } from './RequestSchema';
-import { IndexedObject } from '../../../../types';
 
-export interface HTTPRequestInfo {
-  headers: IndexedObject<any>;
-  cookies: IndexedObject<any>;
-  ip: string;
-  method: string;
-  httpSchema: string;
-  query: IndexedObject<any>;
-  params: IndexedObject<any>;
-  url: string;
-  trapId: string;
-  trapName: string;
-}
+const HTTPRequestSchema = new mongoose.Schema({
+  headers: Object,
+  cookies: Object,
+  ip: String,
+  method: String,
+  httpSchema: String,
+  query: Object,
+  params: Object,
+  url: Object,
+  trapId: String,
+  trapName: String,
+  date: Number,
+});
 
-export const HttpRequestInfo = mongoose.model('HttpRequestInfo', MongooseHTTPRequestSchema);
+export const HttpRequestInfo = mongoose.model('HttpRequestInfo', HTTPRequestSchema);

@@ -1,8 +1,20 @@
 import { Controller } from './utils/Controller';
 import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoModel';
-import { RequestFactory } from '../database/entities/Request/RequestFactory';
 import { Notification, NOTIFICATION_TYPES } from '../websockets/Notification';
 import { Trap } from '../database/entities/Trap/TrapModel';
+
+export interface RequestInfo {
+  httpSchema: 'https' | 'http';
+  date: number;
+  trapId: string;
+  trapName: string;
+  cookies: string;
+  ip: string;
+  method: string;
+  query: string;
+  params: object;
+  url: string;
+}
 
 export class TrapController extends Controller {
   private async initTrap(): Promise<any> {
@@ -23,7 +35,7 @@ export class TrapController extends Controller {
   async proceed(): Promise<void> {
     const trap = await this.initTrap();
 
-    const requestInfoParams = RequestFactory.create(this.req, trap._id);
+    const requestInfoParams = this.getRequestInfo(trap._id);
 
     const httpRequestInfo = new HttpRequestInfo(requestInfoParams);
     await httpRequestInfo.save();
@@ -32,5 +44,22 @@ export class TrapController extends Controller {
 
     this.res.status(200);
     this.res.end();
+  }
+
+  getRequestInfo(trapId: string): RequestInfo {
+    const { cookies, ip, method, secure, query, params, url } = this.req;
+
+    return {
+      cookies,
+      ip,
+      method,
+      query,
+      params,
+      url,
+      httpSchema: secure ? 'https' : 'http',
+      trapId,
+      trapName: this.req.params.trap_id,
+      date: Date.now(),
+    };
   }
 }
