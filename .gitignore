@@ -1,5 +1,7 @@
 node_modules
 .idea
-.env
 .env.local
-.evn.test
+.env.test
+.env.dev
+build
+package-lock.json

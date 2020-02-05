@@ -1,0 +1,11 @@
+include ../views/components/headTemplate
+
+headTemplate
+body
+    header(class="jumbotron")
+        h1(class="display-4") Request trap application
+        p(class="lead") This page displays all trapped requests
+        hr(class='my-4')
+        p It uses websocket server to display all incoming requests in realtime
+        p
+            b Go to /trap_id/requests to see all trapped requests

@@ -1,12 +1,31 @@
 import express from 'express';
-import { Application } from 'express';
-import { Server } from 'http';
-import bodyParser from 'body-parser';
-import path from 'path';
-import { router } from './routes';
+import * as http from 'http';
+import * as WebSocket from 'ws';
 
-export const app = express();
+import { router } from './routes';
+import { DBConnection } from './database/DBConnection';
+import { RequestNotifier } from './websockets/RequestNotifier';
+import { TEST_ENV } from '../config';
+
+const app = express();
 
 app.use(router);
+app.set('views', './app/views');
+app.set('view engine', 'pug');
 
-app.listen(3000, () => `listening 3000`);
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws: WebSocket) => {
+  RequestNotifier.wsConnection = ws;
+});
+
+(async function(): Promise<void> {
+  await DBConnection.connect();
+})();
+
+if (!TEST_ENV) {
+  server.listen(3000);
+}
+
+export { app };
