@@ -2,5 +2,6 @@ node_modules
 .idea
 .env*
 !.env.example
+coverage
 build
 package-lock.json

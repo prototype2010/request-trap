@@ -7,7 +7,7 @@
     "start:test": "cross-env NODE_ENV_FILENAME=.test node --require ts-node/register server.ts",
     "start:prod": "cross-env NODE_ENV_FILENAME=.prod node ./build/app/server.js",
     "build": "tsc",
-    "test": "cross-env NODE_ENV_FILENAME=.test TEST_ENV=true jest --testTimeout=10000 --detectOpenHandles --watchAll --maxWorkers=1"
+    "test": "cross-env NODE_ENV_FILENAME=.test TEST_ENV=true jest --collect-coverage --testTimeout=10000 --detectOpenHandles --watchAll --maxWorkers=1"
   },
   "jest": {
     "testEnvironment": "node",
