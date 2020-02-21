@@ -1,7 +1,7 @@
 node_modules
 .idea
-.env.local
-.env.test
-.env.dev
+.env*
+!.env.example
+coverage
 build
 package-lock.json

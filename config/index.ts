@@ -15,6 +15,6 @@ function resolveEnvFilePath(): string | never {
 }
 
 export const { TEST_ENV } = process.env;
-export const { DB_NAME } = require('dotenv').config({
+export const { DB_NAME, HOST, PORT } = require('dotenv').config({
   path: resolveEnvFilePath(),
 }).parsed;

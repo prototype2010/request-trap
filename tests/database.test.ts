@@ -1,8 +1,8 @@
 import 'jest';
 import request from 'supertest';
 
-import { app } from '../app/server';
-import { HTTPRequestInfo, HttpRequestInfo } from '../app/database/entities/Request/HttpRequestInfoModel';
+import { app } from '../server';
+import { HttpRequestInfo } from '../app/database/entities/Request/HttpRequestInfoModel';
 import { Trap } from '../app/database/entities/Trap/TrapModel';
 
 describe('Database', () => {
@@ -22,6 +22,7 @@ describe('Database', () => {
       await request(app).get(`/${trapId}`);
 
       const dbRow = await Trap.findOne({ id: trapId });
+
       expect(dbRow?.id).toBe(trapId);
     });
 
@@ -50,10 +51,11 @@ describe('Database', () => {
       const trapId = 'fuckyou8888c';
       await request(app).get(`/${trapId}`);
 
-      const dbRow = ((await HttpRequestInfo.findOne({ trapName: trapId })) as any) as HTTPRequestInfo;
+      const trap = await Trap.findOne({ id: trapId });
+      const dbRow = (await HttpRequestInfo.findOne({ trapId: trap!._id })) as any;
 
       expect(dbRow.params.trap_id).toBe(trapId);
-      expect(dbRow.trapName).toBe(trapId);
+      expect(`${dbRow.trapId}`).toBe(`${trap!._id}`);
     });
 
     it('Two same request creates two entries', async () => {
@@ -61,7 +63,8 @@ describe('Database', () => {
       await request(app).get(`/${trapId}`);
       await request(app).get(`/${trapId}`);
 
-      const dbRows = await HttpRequestInfo.find({ trapName: trapId });
+      const trap = await Trap.findOne({ id: trapId });
+      const dbRows = await HttpRequestInfo.find({ trapId: trap!._id });
 
       expect(dbRows.length).toBe(2);
     });
@@ -71,7 +74,8 @@ describe('Database', () => {
       await request(app).get(`/${trapId}/${trapId}/${trapId}`);
       await request(app).get(`/${trapId}`);
 
-      const dbRows = await HttpRequestInfo.find({ trapName: trapId });
+      const trap = await Trap.findOne({ id: trapId });
+      const dbRows = await HttpRequestInfo.find({ trapId: trap!._id });
 
       expect(dbRows.length).toBe(2);
     });

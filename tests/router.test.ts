@@ -1,7 +1,7 @@
 import 'jest';
 import request from 'supertest';
 
-import { app } from '../app/server';
+import { app } from '../server';
 
 describe('Routes', () => {
   it('index route', async () => {
