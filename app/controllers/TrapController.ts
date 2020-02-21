@@ -1,7 +1,7 @@
 import { Controller } from './utils/Controller';
 import { HttpRequestInfo } from '../database/entities/Request/HttpRequestInfoModel';
-import { Notification, NOTIFICATION_TYPES } from '../websockets/Notification';
 import { Trap } from '../database/entities/Trap/TrapModel';
+import { io } from '../../server';
 
 export interface RequestInfo {
   httpSchema: 'https' | 'http';
@@ -39,7 +39,7 @@ export class TrapController extends Controller {
     const httpRequestInfo = new HttpRequestInfo(requestInfoParams);
     await httpRequestInfo.save();
 
-    super.notify(new Notification(NOTIFICATION_TYPES.INCOMING_REQUEST, httpRequestInfo));
+    io.emit(trap.id, { data: requestInfoParams });
 
     this.res.status(200);
     this.res.end();

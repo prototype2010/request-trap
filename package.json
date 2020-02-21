@@ -21,6 +21,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.8.9",
     "pug": "^2.0.4",
+    "socket.io": "^2.3.0",
     "ws": "^7.2.1"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "@types/mongoose": "^5.5.43",
     "@types/node": "^12.12.24",
     "@types/pug": "^2.0.4",
+    "@types/socket.io": "^2.1.4",
     "@types/supertest": "^2.0.8",
     "@types/ws": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^2.12.0",

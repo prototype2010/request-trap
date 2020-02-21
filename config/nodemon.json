@@ -1,6 +1,6 @@
 {
-  "watch": ["app"],
+  "watch": ["app","server.ts"],
   "ext": "ts",
   "ignore": ["app/public"],
-  "exec": "NODE_ENV_FILENAME=.dev ts-node app/server.ts"
+  "exec": "NODE_ENV_FILENAME=.dev ts-node ./server.ts"
 }

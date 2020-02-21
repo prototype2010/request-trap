@@ -16,7 +16,6 @@ body
                             th(scope="col") Url
                             th(scope="col") Schema
                             th(scope="col") Trap ID
-                            th(scope="col") Trap name
                             th(scope="col") Request date
                     tbody(id='table')
                         each request in requests
@@ -27,25 +26,24 @@ body
                                 td= request.url
                                 td= request.httpSchema
                                 td= request.trapId
-                                td= request.trapName
                                 td= new Date(request.date).toUTCString()
     script.
         const [,trapName] = window.location.pathname.split('/')
         const {hostname,port} = window.location;
-        const socketConnection = new WebSocket(`ws://${hostname}:${port}/${trapName}`);
+
+        const socket = io.connect(`http://${hostname}:${port}`, {
+            query: {
+                trapName: trapName
+            }
+        });
+
         const table = document.getElementById('table');
 
-        socketConnection.addEventListener('message', function (event) {
-            const {type, message } = JSON.parse(event.data);
+        socket.on(`${trapName}`, function ({data}) {
 
-            console.log(event.data)
+            const newRowHtml = createTableRow(data);
 
-            if(type === 'incomingRequest') {
-
-                const newRowHtml = createTableRow(message);
-
-                insertHTMLToNode(table, newRowHtml);
-            }
+            insertHTMLToNode(table, newRowHtml);
         });
 
         function insertHTMLToNode (node, html) {
@@ -64,7 +62,6 @@ body
                               <td>${url}</th>
                               <td>${httpSchema}</th>
                               <td>${trapId}</th>
-                              <td>${trapName}</th>
                               <td>${new Date(date).toUTCString()}</th>
                         </tr>
                 `;

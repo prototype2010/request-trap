@@ -1,12 +1,11 @@
 import express from 'express';
 import * as http from 'http';
-import * as WebSocket from 'ws';
-import { PORT } from './config';
+import socketIO from 'socket.io';
 
+import { PORT } from './config';
 import { router } from './app/routes';
 import { DBConnection } from './app/database/DBConnection';
 import { TEST_ENV } from './config';
-import { WSConnectionManager } from './app/websockets/WSConnectionManager';
 
 const app = express();
 
@@ -15,18 +14,13 @@ app.set('views', './app/views');
 app.set('view engine', 'pug');
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
 
-const wsConnectionManager = WSConnectionManager.getInstance();
+const io = socketIO(server);
 
-wss.on('connection', (ws: WebSocket, req: express.Request) => {
-  const [, trapID] = req.url.split('/');
+io.on('connection', function(socket) {
+  const { trapName } = socket.request._query;
 
-  wsConnectionManager.add(trapID, ws);
-
-  ws.addEventListener('close', () => {
-    wsConnectionManager.remove(trapID, ws);
-  });
+  socket.join(trapName);
 });
 
 (async function(): Promise<void> {
@@ -37,4 +31,4 @@ if (!TEST_ENV) {
   server.listen(PORT);
 }
 
-export { app };
+export { app, io };
